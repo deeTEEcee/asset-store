@@ -58,5 +58,5 @@ class AssetsResource(Resource):
     def get(self):
         return jsonify(message="success",data = [asset.serialize() for asset in Asset.query.all()])
 
-api.add_resource(AssetsResource, '/assets')
-api.add_resource(AssetResource, '/asset/<asset_name>')
+api.add_resource(AssetsResource, '/api/v1/assets')
+api.add_resource(AssetResource, '/api/v1/asset/<asset_name>')

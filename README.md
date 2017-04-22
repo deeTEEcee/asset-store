@@ -5,23 +5,26 @@
 
 ### (Optional) Use this guide to setup the virtual environment or manually do it yourself
 1. Install virtualenv on your machine.
-2. `virtualenv venv`
-3. cd into main folder: `source venv bin/activate`
+2. cd into main asset-store folder
+3. `virtualenv venv`
+4. `source venv bin/activate`
 4. `pip install -r requirements.txt`
 
 You can now run the server basic requirements and tests.
 
 ### Running the Server
 ```
-install basic python needs
-python setup.py
+# after the requirements are met and python in venv activated
+python db_init.py
 python run.py
 ```
-#####Available Routes
-- GET /assets
-- GET /asset/\<asset_name\> 
-- POST /asset/\<asset_name\>
-
+##### Available Routes and Sample Requests
+- GET /api/v1/assets
+  - Sample: `curl http://127.0.0.1:5000/api/v1/assets`
+- GET /api/v1/asset/\<asset_name\>
+  - Sample: `curl http://127.0.0.1:5000/api/v1/asset/alpha-dove`
+- POST /api/v1/asset/\<asset_name\>
+  - Sample: `curl --data "type=satellite&class=dove" http://127.0.0.1:5000/api/v1/asset/alpha-dove`
 
 ### Testing
 ```

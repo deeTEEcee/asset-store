@@ -58,61 +58,64 @@ class BaseTestCase(TestCase):
 
 class SimpleTest(BaseTestCase):
 
+    def url(self, path):
+        return "/api/v1" + path
+
     @classmethod
     def setUpClass(cls):
         super(SimpleTest, cls).setUpClass()
         # create custom assets
 
     def test_initial_assets(self):
-        response = self.client.get("/assets")
+        response = self.client.get(self.url("/assets"))
         self.assertEquals(200, response.status_code)
 
     def test_create_asset(self):
         asset = sample_valid_assets[0]
-        response = self.client.post("/asset/%s" % asset['name'],data=asset)
+        response = self.client.post(self.url("/asset/%s" % asset['name']),data=asset)
         self.assertEquals(200, response.status_code)
 
     def test_create_asset_fail_duplicate(self):
         asset = sample_valid_assets[0]
-        response = self.client.post("/asset/%s" % asset['name'],data=asset)
+        response = self.client.post(self.url("/asset/%s" % asset['name']),data=asset)
         self.assertEquals(409, response.status_code)
 
     def test_create_asset_fail_bad_type(self):
         asset = sample_invalid_assets[0]
-        response = self.client.post("/asset/%s" % asset['name'],data=asset)
+        response = self.client.post(self.url("/asset/%s" % asset['name']),data=asset)
         self.assertEquals(422, response.status_code)
 
     def test_create_asset_fail_bad_satellite_class(self):
         asset = sample_invalid_assets[1]
-        response = self.client.post("/asset/%s" % asset['name'],data=asset)
+        response = self.client.post(self.url("/asset/%s" % asset['name']),data=asset)
         self.assertEquals(422, response.status_code)
 
     def test_create_asset_fail_bad_antenna_class(self):
         asset = sample_invalid_assets[2]
-        response = self.client.post("/asset/%s" % asset['name'],data=asset)
+        response = self.client.post(self.url("/asset/%s" % asset['name']),data=asset)
         self.assertEquals(422, response.status_code)
 
     def test_create_asset_fail_beginning_character_not_allowed(self):
         asset = sample_invalid_assets[3]
-        response = self.client.post("/asset/%s" % asset['name'],data=asset)
+        response = self.client.post(self.url("/asset/%s" % asset['name']),data=asset)
         self.assertEquals(422, response.status_code)
 
     def test_create_asset_fail_name_too_short(self):
         asset = sample_invalid_assets[4]
-        response = self.client.post("/asset/%s" % asset['name'],data=asset)
+        response = self.client.post(self.url("/asset/%s" % asset['name']),data=asset)
         self.assertEquals(422, response.status_code)
 
     def test_get_asset(self):
         asset = sample_valid_assets[0]
-        response = self.client.get("/asset/%s" % asset['name'])
+        response = self.client.get(self.url("/asset/%s" % asset['name']))
         self.assertEquals(200, response.status_code)
 
     def test_get_asset_fail(self):
-        response = self.client.get("/asset/nonexistent")
+        response = self.client.get(self.url("/asset/nonexistent"))
         self.assertEquals(404, response.status_code)
 
     def test_get_all_assets(self):
-        response = self.client.get("/assets")
+        response = self.client.get(self.url("/assets"))
         data = json.loads(response.data)['data']
         self.assertEquals(1, len(data))
         self.assertEquals(200, response.status_code)

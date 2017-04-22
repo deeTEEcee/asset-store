@@ -12,10 +12,11 @@ class Asset(db.Model):
 
     def __repr__(self):
         return '<Asset %s>' % self.name
+
     def serialize(self):
         """Return object data in easily serializeable format"""
         return {
-            'name' : self.name,
+            'name': self.name,
             'type': self.asset_type,
-            'class'  : self.asset_class
+            'class': self.asset_class
         }
